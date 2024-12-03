@@ -1,0 +1,15 @@
+{
+  "version": "2.0",
+  "app_name": "hiroshima-funcs",
+  "stages": {
+    "dev": {
+      "lambda_functions": {
+        "receiver": {
+	  "manage_iam_role": false,
+          "iam_role_arn": "arn:aws:iam::183295409111:role/testFuncForConnectRole",
+          "lambda_timeout": 9
+        }
+      }
+    }
+  }
+}
