@@ -1,0 +1,684 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "55aeb2ce-11b2-45fd-a553-0b309b9af28e",
+  "Metadata": {
+    "entryPointPosition": {
+      "x": 40,
+      "y": 40
+    },
+    "ActionMetadata": {
+      "55aeb2ce-11b2-45fd-a553-0b309b9af28e": {
+        "position": {
+          "x": 156,
+          "y": 14.4
+        }
+      },
+      "3aa667f3-c4c6-4fe5-9b4d-45e89306b4b9": {
+        "position": {
+          "x": 378.4,
+          "y": 10.4
+        },
+        "overrideConsoleVoice": true
+      },
+      "a6b09395-08d7-4d53-a73a-8678b21e7c48": {
+        "position": {
+          "x": 631.2,
+          "y": -1.6
+        }
+      },
+      "d07d1112-475c-4332-ba67-bad182d2dcf2": {
+        "position": {
+          "x": 1542.4,
+          "y": 842.4
+        }
+      },
+      "d279497b-7be2-4dce-98a3-9ceeccbdb385": {
+        "position": {
+          "x": 1036.8,
+          "y": 849.6
+        },
+        "parameters": {
+          "Media": {
+            "Uri": {
+              "useDynamic": true
+            }
+          }
+        },
+        "useDynamic": true
+      },
+      "7b7b2bf1-48fc-47f0-87a8-d9b4228e93f4": {
+        "position": {
+          "x": 1271.2,
+          "y": 835.2
+        },
+        "conditions": [],
+        "conditionMetadata": [
+          {
+            "id": "27da0b28-8ab7-460c-88a3-68d26b6ad98f",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "True"
+          },
+          {
+            "id": "dc3921ca-e81a-44e0-9258-68293388a93f",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "False"
+          }
+        ]
+      },
+      "38dcbfc6-3afb-4412-bc8e-6d64a25aa7e1": {
+        "position": {
+          "x": 772,
+          "y": 868.8
+        },
+        "conditions": [],
+        "conditionMetadata": [
+          {
+            "id": "4f8cdbf1-a140-4177-ab9d-25698158886f",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "ANALYZED"
+          },
+          {
+            "id": "3579c093-4799-4e66-8480-fec6734b9418",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "ANALYZING"
+          },
+          {
+            "id": "07a61954-0d7c-4057-a098-a264d636ebbb",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "NOT_FOUND"
+          },
+          {
+            "id": "74a64e9e-7027-4c6f-957e-ac9cb0c8d27c",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "ERROR"
+          }
+        ]
+      },
+      "poller のループ": {
+        "position": {
+          "x": 799.2,
+          "y": 526.4
+        },
+        "isFriendlyName": true
+      },
+      "会話全体のループ": {
+        "position": {
+          "x": 893.6,
+          "y": 6.4
+        },
+        "isFriendlyName": true
+      },
+      "50881a38-f0c1-4e94-95e6-73424c04f23a": {
+        "position": {
+          "x": 1235.2,
+          "y": 303.2
+        }
+      },
+      "9e5326ea-f8ae-485c-9064-1724fe2984ba": {
+        "position": {
+          "x": 493.6,
+          "y": 292.8
+        }
+      },
+      "a6b70b5f-9442-448e-9fdb-a2790bda5bff": {
+        "position": {
+          "x": 232.8,
+          "y": 318.4
+        },
+        "toCustomer": false,
+        "fromCustomer": true
+      },
+      "9e0bf5e7-1240-4aec-8ca0-5c254a59caa0": {
+        "position": {
+          "x": 501.6,
+          "y": 868.8
+        },
+        "parameters": {
+          "Attributes": {
+            "status": {
+              "useDynamic": true
+            },
+            "analyze_file_path": {
+              "useDynamic": true
+            },
+            "is_conversation_finished": {
+              "useDynamic": true
+            }
+          }
+        },
+        "dynamicParams": [
+          "status",
+          "analyze_file_path",
+          "is_conversation_finished"
+        ]
+      },
+      "0315a1e3-9991-4a45-879b-8def2ae630a4": {
+        "position": {
+          "x": 1919.2,
+          "y": 1124.8
+        }
+      },
+      "95ac24ea-75a3-4c42-a5b8-e507061781cc": {
+        "position": {
+          "x": -16,
+          "y": 851.2
+        }
+      },
+      "adcc11b0-6c8b-4b74-bdb7-5e70d772e0c3": {
+        "position": {
+          "x": 260,
+          "y": 854.4
+        },
+        "parameters": {
+          "LambdaFunctionARN": {
+            "displayName": "hiroshima-funcs-dev-poller"
+          },
+          "LambdaInvocationAttributes": {
+            "recordId": {
+              "useDynamic": true
+            }
+          }
+        },
+        "dynamicMetadata": {
+          "recordId": true
+        }
+      },
+      "250078d6-b022-4489-8f74-afaeeee0d328": {
+        "position": {
+          "x": 766.4,
+          "y": 284.8
+        }
+      },
+      "8d078a60-7006-4968-89d5-ba1adb22a3ee": {
+        "position": {
+          "x": 1200.8,
+          "y": 599.2
+        }
+      },
+      "c6401167-c0ab-472f-bd56-962c14463e52": {
+        "position": {
+          "x": 497.6,
+          "y": 547.2
+        },
+        "parameters": {
+          "Attributes": {
+            "recordId": {
+              "useDynamic": true
+            }
+          }
+        },
+        "dynamicParams": [
+          "recordId"
+        ]
+      },
+      "49fd4f66-d86d-462b-9142-5cdebc8c027a": {
+        "position": {
+          "x": 194.4,
+          "y": 580.8
+        },
+        "parameters": {
+          "LambdaFunctionARN": {
+            "displayName": "hiroshima-funcs-dev-receiver"
+          }
+        },
+        "dynamicMetadata": {}
+      }
+    },
+    "Annotations": [
+      {
+        "type": "default",
+        "id": "0741fe40-4e60-456c-858a-8a9ffaad8988",
+        "content": "receiver -> poller で会話セッションのID 渡す\n\npoller でステータスチェック\n・未完了なら polling 続行\n・完了済みなら音声が保存された S3 パスが返ってくるので、それを再生\n\nそれとは別に会話の終了フラグを返して、それで会話全体のループを継続するか決定する必要がある",
+        "actionId": "",
+        "isFolded": false,
+        "position": {
+          "x": -302,
+          "y": 11
+        },
+        "size": {
+          "height": 295,
+          "width": 300
+        }
+      }
+    ],
+    "name": "test flow7 integrate with chalice",
+    "description": "",
+    "type": "contactFlow",
+    "status": "PUBLISHED",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {
+        "FlowLoggingBehavior": "Enabled"
+      },
+      "Identifier": "55aeb2ce-11b2-45fd-a553-0b309b9af28e",
+      "Type": "UpdateFlowLoggingBehavior",
+      "Transitions": {
+        "NextAction": "3aa667f3-c4c6-4fe5-9b4d-45e89306b4b9"
+      }
+    },
+    {
+      "Parameters": {
+        "TextToSpeechEngine": "Neural",
+        "TextToSpeechStyle": "None",
+        "TextToSpeechVoice": "Kazuha"
+      },
+      "Identifier": "3aa667f3-c4c6-4fe5-9b4d-45e89306b4b9",
+      "Type": "UpdateContactTextToSpeechVoice",
+      "Transitions": {
+        "NextAction": "a6b09395-08d7-4d53-a73a-8678b21e7c48"
+      }
+    },
+    {
+      "Parameters": {
+        "Text": "何か話してください"
+      },
+      "Identifier": "a6b09395-08d7-4d53-a73a-8678b21e7c48",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "会話全体のループ",
+        "Errors": [
+          {
+            "NextAction": "50881a38-f0c1-4e94-95e6-73424c04f23a",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Text": "お電話ありがとうございました"
+      },
+      "Identifier": "d07d1112-475c-4332-ba67-bad182d2dcf2",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+        "Errors": [
+          {
+            "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Media": {
+          "Uri": "$.Attributes.analyze_file_path",
+          "SourceType": "S3",
+          "MediaType": "Audio"
+        }
+      },
+      "Identifier": "d279497b-7be2-4dce-98a3-9ceeccbdb385",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "7b7b2bf1-48fc-47f0-87a8-d9b4228e93f4",
+        "Errors": [
+          {
+            "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "ComparisonValue": "$.Attributes.is_conversation_finished"
+      },
+      "Identifier": "7b7b2bf1-48fc-47f0-87a8-d9b4228e93f4",
+      "Type": "Compare",
+      "Transitions": {
+        "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+        "Conditions": [
+          {
+            "NextAction": "d07d1112-475c-4332-ba67-bad182d2dcf2",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "True"
+              ]
+            }
+          },
+          {
+            "NextAction": "会話全体のループ",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "False"
+              ]
+            }
+          }
+        ],
+        "Errors": [
+          {
+            "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+            "ErrorType": "NoMatchingCondition"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "ComparisonValue": "$.Attributes.status"
+      },
+      "Identifier": "38dcbfc6-3afb-4412-bc8e-6d64a25aa7e1",
+      "Type": "Compare",
+      "Transitions": {
+        "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+        "Conditions": [
+          {
+            "NextAction": "d279497b-7be2-4dce-98a3-9ceeccbdb385",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "ANALYZED"
+              ]
+            }
+          },
+          {
+            "NextAction": "poller のループ",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "ANALYZING"
+              ]
+            }
+          },
+          {
+            "NextAction": "poller のループ",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "NOT_FOUND"
+              ]
+            }
+          },
+          {
+            "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "ERROR"
+              ]
+            }
+          }
+        ],
+        "Errors": [
+          {
+            "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+            "ErrorType": "NoMatchingCondition"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LoopCount": "100"
+      },
+      "Identifier": "poller のループ",
+      "Type": "Loop",
+      "Transitions": {
+        "NextAction": "8d078a60-7006-4968-89d5-ba1adb22a3ee",
+        "Conditions": [
+          {
+            "NextAction": "95ac24ea-75a3-4c42-a5b8-e507061781cc",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "ContinueLooping"
+              ]
+            }
+          },
+          {
+            "NextAction": "8d078a60-7006-4968-89d5-ba1adb22a3ee",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "DoneLooping"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LoopCount": "100"
+      },
+      "Identifier": "会話全体のループ",
+      "Type": "Loop",
+      "Transitions": {
+        "NextAction": "50881a38-f0c1-4e94-95e6-73424c04f23a",
+        "Conditions": [
+          {
+            "NextAction": "a6b70b5f-9442-448e-9fdb-a2790bda5bff",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "ContinueLooping"
+              ]
+            }
+          },
+          {
+            "NextAction": "50881a38-f0c1-4e94-95e6-73424c04f23a",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "DoneLooping"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "50881a38-f0c1-4e94-95e6-73424c04f23a",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>\n  <break time=\"5s\"/>\n</speak>"
+      },
+      "Identifier": "9e5326ea-f8ae-485c-9064-1724fe2984ba",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "250078d6-b022-4489-8f74-afaeeee0d328",
+        "Errors": [
+          {
+            "NextAction": "50881a38-f0c1-4e94-95e6-73424c04f23a",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Enabled",
+        "MediaStreamType": "Audio",
+        "Participants": [
+          {
+            "ParticipantType": "Customer",
+            "MediaDirections": [
+              "From"
+            ]
+          }
+        ]
+      },
+      "Identifier": "a6b70b5f-9442-448e-9fdb-a2790bda5bff",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "9e5326ea-f8ae-485c-9064-1724fe2984ba",
+        "Errors": [
+          {
+            "NextAction": "50881a38-f0c1-4e94-95e6-73424c04f23a",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Attributes": {
+          "status": "$.External.status",
+          "analyze_file_path": "$.External.analyze_file_path",
+          "is_conversation_finished": "$.External.is_conversation_finished"
+        },
+        "TargetContact": "Current"
+      },
+      "Identifier": "9e0bf5e7-1240-4aec-8ca0-5c254a59caa0",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "38dcbfc6-3afb-4412-bc8e-6d64a25aa7e1",
+        "Errors": [
+          {
+            "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>\n  <break time=\"1s\"/>\n</speak>"
+      },
+      "Identifier": "95ac24ea-75a3-4c42-a5b8-e507061781cc",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "adcc11b0-6c8b-4b74-bdb7-5e70d772e0c3",
+        "Errors": [
+          {
+            "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "arn:aws:lambda:ap-northeast-1:183295409111:function:hiroshima-funcs-dev-poller",
+        "InvocationTimeLimitSeconds": "2",
+        "LambdaInvocationAttributes": {
+          "recordId": "$.Attributes.recordId"
+        },
+        "ResponseValidation": {
+          "ResponseType": "JSON"
+        }
+      },
+      "Identifier": "adcc11b0-6c8b-4b74-bdb7-5e70d772e0c3",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "9e0bf5e7-1240-4aec-8ca0-5c254a59caa0",
+        "Errors": [
+          {
+            "NextAction": "0315a1e3-9991-4a45-879b-8def2ae630a4",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Disabled",
+        "Participants": [
+          {
+            "ParticipantType": "Customer",
+            "MediaDirections": [
+              "To",
+              "From"
+            ]
+          }
+        ],
+        "MediaStreamType": "Audio"
+      },
+      "Identifier": "250078d6-b022-4489-8f74-afaeeee0d328",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "49fd4f66-d86d-462b-9142-5cdebc8c027a",
+        "Errors": [
+          {
+            "NextAction": "50881a38-f0c1-4e94-95e6-73424c04f23a",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "8d078a60-7006-4968-89d5-ba1adb22a3ee",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "Attributes": {
+          "recordId": "$.External.recordId"
+        },
+        "TargetContact": "Current"
+      },
+      "Identifier": "c6401167-c0ab-472f-bd56-962c14463e52",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "poller のループ",
+        "Errors": [
+          {
+            "NextAction": "8d078a60-7006-4968-89d5-ba1adb22a3ee",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "arn:aws:lambda:ap-northeast-1:183295409111:function:hiroshima-funcs-dev-receiver",
+        "InvocationTimeLimitSeconds": "8",
+        "ResponseValidation": {
+          "ResponseType": "JSON"
+        }
+      },
+      "Identifier": "49fd4f66-d86d-462b-9142-5cdebc8c027a",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "c6401167-c0ab-472f-bd56-962c14463e52",
+        "Errors": [
+          {
+            "NextAction": "8d078a60-7006-4968-89d5-ba1adb22a3ee",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    }
+  ]
+}

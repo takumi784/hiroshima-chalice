@@ -1,3 +1,4 @@
 boto3==1.35.72
 chalice==1.31.2
 ebmlite==3.3.1
+ffmpeg-python==0.2.0

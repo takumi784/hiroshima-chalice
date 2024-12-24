@@ -8,6 +8,19 @@
 	  "manage_iam_role": false,
           "iam_role_arn": "arn:aws:iam::183295409111:role/testFuncForConnectRole",
           "lambda_timeout": 9
+        },
+        "voiceAnalyzer": {
+	  "manage_iam_role": false,
+          "iam_role_arn": "arn:aws:iam::183295409111:role/testFuncForConnectRole",
+          "lambda_timeout": 40,
+	  "layers" : [
+	  	"arn:aws:lambda:ap-northeast-1:183295409111:layer:ffmpeg_layer:1"
+	  ]
+        },
+        "poller": {
+          "manage_iam_role": false,
+          "iam_role_arn": "arn:aws:iam::183295409111:role/testFuncForConnectRole",
+          "lambda_timeout": 1
         }
       }
     }

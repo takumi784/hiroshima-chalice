@@ -112,13 +112,13 @@ def upload_audio_to_s3(bucket_name, audio_data, filename):
 
 def get_media_data(arn, start_timestamp, end_timestamp):
     start_time = time.time()
-    log_elapsed_time("Starting get_media_data", start_time)
+    log_elapsed_time("receiver: Starting get_media_data", start_time)
 
     kvs_client = create_kvs_client()
 
     list_frags_ep = kvs_client.get_data_endpoint(StreamARN=arn, APIName="LIST_FRAGMENTS")["DataEndpoint"]
     list_frags_client = create_archive_media_client(list_frags_ep)
-    log_elapsed_time("Created LIST_FRAGMENTS client", start_time)
+    log_elapsed_time("receiver: Created LIST_FRAGMENTS client", start_time)
 
     fragment_list = list_frags_client.list_fragments(
         StreamARN = arn, 
@@ -127,17 +127,17 @@ def get_media_data(arn, start_timestamp, end_timestamp):
             "TimestampRange": {"StartTimestamp": datetime.fromtimestamp(start_timestamp), "EndTimestamp": datetime.fromtimestamp(end_timestamp)}
         }
     )
-    log_elapsed_time("Listed fragments", start_time)
+    log_elapsed_time("receiver: Listed fragments", start_time)
 
     sorted_fragments = sorted(fragment_list["Fragments"], key = lambda fragment: fragment["ProducerTimestamp"])
     fragment_number_array = [fragment["FragmentNumber"] for fragment in sorted_fragments]
 
     get_media_ep = kvs_client.get_data_endpoint(StreamARN=arn, APIName="GET_MEDIA_FOR_FRAGMENT_LIST")["DataEndpoint"]
     get_media_client = create_archive_media_client(get_media_ep)
-    log_elapsed_time("Created GET_MEDIA client", start_time)
+    log_elapsed_time("receiver: Created GET_MEDIA client", start_time)
 
     media = get_media_client.get_media_for_fragment_list(StreamARN = arn, Fragments = fragment_number_array)
-    log_elapsed_time("Retrieved media data", start_time)
+    log_elapsed_time("receiver: Retrieved media data", start_time)
     
     return media
 
