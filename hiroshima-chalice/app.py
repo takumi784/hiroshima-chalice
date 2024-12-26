@@ -283,6 +283,267 @@ def voiceAnalyzer(event: DynamoDBEvent):
 
     return {"hello": "world"}
 
+@app.lambda_function(name='lexAnalyzer')
+def lexAnalyzer(event, context):
+    print("Received event:" + json.dumps(event, default=decimal_to_int, ensure_ascii=False))
+    start_time = time.time()
+    JST_OFFSET = timedelta(hours=9)
+    jst_time = datetime.utcnow() + JST_OFFSET
+
+    recordId = uuid.uuid4() # 今回の解析で使う id
+
+    s3_response_audio_path = 'responses/ai_voice_{date}.wav'.format(date=jst_time.strftime("%Y%m%d_%H%M%S")) # S3 に保存するときのパス
+    full_s3_response_audio_path = f's3://test-bucket-for-connect/{s3_response_audio_path}' # Dyanmo に書き込むときのパス
+
+    connect_contact_id = event["sessionId"] # Connect のコンタクトid を取得
+    transcript_text = event["inputTranscript"] # 文字起こしを取得
+
+
+    try:
+        #解析開始: ANALYZING
+        item={
+            'uuid': str(recordId),
+            'analyze_file_path': full_s3_response_audio_path,
+            'status': 'ANALYZING',
+            'is_conversation_finished': False
+        }
+        analyze_table.put_item(Item=item)
+        print(f"Writing to DynamoDB table: hiroshima-table-test")
+        print(f"Data: {json.dumps(item, ensure_ascii=False)}")
+
+        # Connect フローに recordId をコンタクト属性として渡す
+        connect_client = boto3.client('connect')
+        response = connect_client.update_contact_attributes(
+            InstanceId="arn:aws:connect:ap-northeast-1:183295409111:instance/51acae49-08f5-4ffc-bee1-7166f30e9fb6",
+            InitialContactId=connect_contact_id,
+            Attributes={
+                'recordId': str(recordId)
+            }
+        )
+        print(f"UpdateContactAttributes response: {response}")
+
+        # Bedrock (Anthropic Claude)で返答を生成
+        bedrock_client = boto3.client('bedrock-runtime')
+
+        prompt = f"""会話の文脈：{transcript_text}
+
+あなたは、この音声メッセージに対して自然な続きの返答を1行で生成してください。"""
+
+        accept = "application/json"
+        content_type = "application/json"
+
+        body = json.dumps({
+            "inputText": prompt,
+            "textGenerationConfig": {
+                "maxTokenCount": 300,
+                "stopSequences": [],
+                "temperature": 0.5,
+                "topP": 0.9
+            },
+        })
+
+        log_elapsed_time(f"analyzer: invoke model", start_time)
+        response = bedrock_client.invoke_model(
+            modelId="amazon.titan-text-express-v1",
+            body=body,
+            accept=accept, 
+            contentType=content_type
+        )
+
+        # レスポンスから返答を抽出
+        response_body = json.loads(response.get("body").read())
+        for result in response_body['results']:
+            generated_response = result['outputText']
+            print(generated_response)
+    
+        # 会話終了判定（検証のため False に）
+        is_conversation_finished = False
+
+        # 音声合成
+        polly_client = boto3.client('polly')
+    
+        # Pollyで音声合成 (16bit PCM, 8kHz)
+        response = polly_client.synthesize_speech(
+            Text=generated_response,
+            OutputFormat='pcm',
+            SampleRate='8000',
+            VoiceId='Mizuki',    # 日本語の音声
+            LanguageCode='ja-JP'
+        )
+
+        log_elapsed_time(f"analyzer: synthesized speech", start_time)
+    
+        # 音声データを取得
+        pcm_data = response['AudioStream'].read()
+
+        # PCMをWAVに変換
+        wav_data = convert_to_8k_ulaw_wav(pcm_data)
+        log_elapsed_time(f"analyzer: processed audio", start_time)
+    
+        # S3に保存
+        s3 = boto3.client('s3')
+        s3.put_object(
+            Bucket='test-bucket-for-connect', 
+            Key=s3_response_audio_path, 
+            Body=wav_data,
+            ContentType='audio/wav'
+        )
+
+        log_elapsed_time(f"analyzer:put audio object", start_time)
+
+        # テーブル更新: ANALYZED
+        analyze_item  = {
+            'uuid': str(recordId),
+            'analyze_file_path': full_s3_response_audio_path,
+            'status': 'ANALYZED',
+            'is_conversation_finished': is_conversation_finished
+        }
+        response = analyze_table.put_item(Item=analyze_item)
+        print(f"Writing to DynamoDB table: hiroshima-analyze-test")
+        print(f"Data: {json.dumps(analyze_item, ensure_ascii=False)}")
+
+        log_elapsed_time(f"analyzer: analyzed and put table", start_time)
+
+    except Exception as e:
+        print("Error", e)
+
+    #Lex ボットを終了させる
+    return {
+        "sessionState": {
+            "dialogAction": {
+                "type": "Close",
+            },
+            "intent": {
+                "name": "OneVoice",
+                "state": "Fulfilled"
+            }
+        },
+        "messages": [
+                {
+                    "contentType": "PlainText",
+                    "content": ","
+                }
+            ]
+    }
+
+@app.lambda_function(name='simpler-lexAnalyzer')
+def simplerLexAnalyzer(event, context):
+    print("Received event:" + json.dumps(event, default=decimal_to_int, ensure_ascii=False))
+    start_time = time.time()
+    JST_OFFSET = timedelta(hours=9)
+    jst_time = datetime.utcnow() + JST_OFFSET
+
+    s3_response_audio_path = 'responses/ai_voice_{date}.wav'.format(date=jst_time.strftime("%Y%m%d_%H%M%S")) # S3 に保存するときのパス
+    full_s3_response_audio_path = f's3://test-bucket-for-connect/{s3_response_audio_path}' # Dyanmo に書き込むときのパス
+
+    connect_contact_id = event["sessionId"] # Connect のコンタクトid を取得
+    transcript_text = event["inputTranscript"] # 文字起こしを取得
+
+
+    try:
+        # Bedrock (Anthropic Claude)で返答を生成
+        bedrock_client = boto3.client('bedrock-runtime')
+
+        prompt = f"""会話の文脈：{transcript_text}
+
+あなたは、この音声メッセージに対して自然な続きの返答を1行で生成してください。"""
+
+        accept = "application/json"
+        content_type = "application/json"
+
+        body = json.dumps({
+            "inputText": prompt,
+            "textGenerationConfig": {
+                "maxTokenCount": 300,
+                "stopSequences": [],
+                "temperature": 0.5,
+                "topP": 0.9
+            },
+        })
+
+        log_elapsed_time(f"analyzer: invoke model", start_time)
+        response = bedrock_client.invoke_model(
+            modelId="amazon.titan-text-express-v1",
+            body=body,
+            accept=accept, 
+            contentType=content_type
+        )
+
+        # レスポンスから返答を抽出
+        response_body = json.loads(response.get("body").read())
+        for result in response_body['results']:
+            generated_response = result['outputText']
+            print(generated_response)
+    
+        # 会話終了判定（検証のため False に）
+        is_conversation_finished = False
+
+        # 音声合成
+        polly_client = boto3.client('polly')
+    
+        # Pollyで音声合成 (16bit PCM, 8kHz)
+        response = polly_client.synthesize_speech(
+            Text=generated_response,
+            OutputFormat='pcm',
+            SampleRate='8000',
+            VoiceId='Mizuki',    # 日本語の音声
+            LanguageCode='ja-JP'
+        )
+
+        log_elapsed_time(f"analyzer: synthesized speech", start_time)
+    
+        # 音声データを取得
+        pcm_data = response['AudioStream'].read()
+
+        # PCMをWAVに変換
+        wav_data = convert_to_8k_ulaw_wav(pcm_data)
+        log_elapsed_time(f"analyzer: processed audio", start_time)
+    
+        # S3に保存
+        s3 = boto3.client('s3')
+        s3.put_object(
+            Bucket='test-bucket-for-connect', 
+            Key=s3_response_audio_path, 
+            Body=wav_data,
+            ContentType='audio/wav'
+        )
+
+        log_elapsed_time(f"analyzer:put audio object", start_time)
+
+        # is_conversation_finished, analyze_file_path をコンタクト属性としてフローに渡す
+        connect_client = boto3.client('connect')
+        response = connect_client.update_contact_attributes(
+            InstanceId="arn:aws:connect:ap-northeast-1:183295409111:instance/51acae49-08f5-4ffc-bee1-7166f30e9fb6",
+            InitialContactId=connect_contact_id,
+            Attributes={
+                'is_conversation_finished': str(is_conversation_finished),
+                'analyze_file_path': full_s3_response_audio_path
+            }
+        )
+        print(f"UpdateContactAttributes response: {response}")
+
+    except Exception as e:
+        print("Error", e)
+
+    #Lex ボットを終了させる
+    return {
+        "sessionState": {
+            "dialogAction": {
+                "type": "Close",
+            },
+            "intent": {
+                "name": "OneVoice",
+                "state": "Fulfilled"
+            }
+        },
+        "messages": [
+                {
+                    "contentType": "PlainText",
+                    "content": ","
+                }
+            ]
+    }
+
 @app.lambda_function(name="poller")
 def poller(event, context):
     print(event)
